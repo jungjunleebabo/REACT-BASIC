@@ -1,18 +1,18 @@
-import React from 'react';
+import React from "react";
 import axios from "axios";
 import Movie from "../components/Movie";
 import "./Home.css";
 
-class Home extends React.Component{
+class Home extends React.Component {
   state = {
     isLoading: true,
     movies: [],
-    value: ""
+    value: "",
   };
-  
-  getMovies = async() => {
-    const ID_KEY = 'sNxTbgnt_IcCpjBvC1Cd';
-    const SECRET_KEY = 'r7C6l7qZRA';
+
+  getMovies = async () => {
+    const ID_KEY = "ueU7QWg_KNRJCSAPrXEV";
+    const SECRET_KEY = "kWtNdymZiG";
     const search = this.state.value;
 
     try {
@@ -20,21 +20,20 @@ class Home extends React.Component{
         this.setState({ movies: [], isLoading: false });
       } else {
         const {
-          data: { items }
-        } = await axios.get(
-            '/api/v1/search/movie.json' ,{
-            params:{
-              query: search,
-              display: 10
-            },
-            headers: {
-              'X-Naver-Client-Id': ID_KEY,
-              'X-Naver-Client-Secret': SECRET_KEY
-            }
+          data: { items },
+        } = await axios.get("/api/v1/datalab/shopping/category/gender.json", {
+          params: {
+            query: search,
+            display: 10,
+          },
+          headers: {
+            "X-Naver-Client-Id": ID_KEY,
+            "X-Naver-Client-Secret": SECRET_KEY,
+          },
         });
-  
+
         this.setState({ movies: items, isLoading: false });
-      } 
+      }
     } catch (error) {
       console.log(error);
     }
@@ -42,49 +41,51 @@ class Home extends React.Component{
 
   componentDidMount() {
     this.getMovies();
-  };
+  }
 
   handleChange = (e) => {
     this.setState({ value: e.target.value });
   };
-  
+
   handleSubmit = (e) => {
     e.preventDefault();
     this.getMovies();
   };
 
-
   render() {
     const { isLoading, movies } = this.state;
     return (
-        <section className="container">
-            {isLoading ? (
-              <div className="loader">
-                <span className="loader_text">Loading...</span>
-              </div>
-            ) : (<form onSubmit={this.handleSubmit}>
-              <div className="input_div">
-                <h1>영화 검색</h1>
-                <input
-                  className="input_search"
-                  type="text"
-                  value={this.state.value}
-                  onChange={this.handleChange}
-                  placeholder="영화를 검색해 보세요."/>
-              </div>
-              <div className="movies">
-                {movies.map(movie => (
-                  <Movie
-                    id={movie.link}
-                    title={movie.title}
-                    poster={movie.image}
-                    actors={movie.actor}
-                    year={movie.pubDate}
-                  />
-                ))}
-              </div>
-            </form>)}
-        </section>
+      <section className="container">
+        {isLoading ? (
+          <div className="loader">
+            <span className="loader_text">Loading...</span>
+          </div>
+        ) : (
+          <form onSubmit={this.handleSubmit}>
+            <div className="input_div">
+              <h1>영화 검색</h1>
+              <input
+                className="input_search"
+                type="text"
+                value={this.state.value}
+                onChange={this.handleChange}
+                placeholder="영화를 검색해 보세요."
+              />
+            </div>
+            <div className="movies">
+              {movies.map((movie) => (
+                <Movie
+                  id={movie.link}
+                  title={movie.title}
+                  poster={movie.image}
+                  actors={movie.actor}
+                  year={movie.pubDate}
+                />
+              ))}
+            </div>
+          </form>
+        )}
+      </section>
     );
   }
 }
