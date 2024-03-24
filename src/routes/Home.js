@@ -1,3 +1,4 @@
+
 import React from "react";
 import axios from "axios";
 import Movie from "../components/Movie";
@@ -7,8 +8,9 @@ class Home extends React.Component {
   state = {
     isLoading: true,
     movies: [],
-    value: "",
+    value: "공항패션",
   };
+  
 
   getMovies = async () => {
     const ID_KEY = "ueU7QWg_KNRJCSAPrXEV";
@@ -21,7 +23,7 @@ class Home extends React.Component {
       } else {
         const {
           data: { items },
-        } = await axios.get("/api/v1/datalab/shopping/category/gender.json", {
+        } = await axios.get("/api/v1/search/image", {
           params: {
             query: search,
             display: 10,
@@ -54,6 +56,7 @@ class Home extends React.Component {
 
   render() {
     const { isLoading, movies } = this.state;
+    
     return (
       <section className="container">
         {isLoading ? (
@@ -63,26 +66,26 @@ class Home extends React.Component {
         ) : (
           <form onSubmit={this.handleSubmit}>
             <div className="input_div">
-              <h1>영화 검색</h1>
+              <h1>검색</h1>
               <input
                 className="input_search"
                 type="text"
                 value={this.state.value}
                 onChange={this.handleChange}
-                placeholder="영화를 검색해 보세요."
+                placeholder="검색해 보세요."
               />
             </div>
             <div className="movies">
               {movies.map((movie) => (
                 <Movie
-                  id={movie.link}
+                  id={movie.sizeheight}
                   title={movie.title}
-                  poster={movie.image}
-                  actors={movie.actor}
-                  year={movie.pubDate}
+                  thumbnail={movie.thumbnail}
                 />
               ))}
+             
             </div>
+            <div id="observer" style={{ height: "10px", border:"solid" }}></div>
           </form>
         )}
       </section>
