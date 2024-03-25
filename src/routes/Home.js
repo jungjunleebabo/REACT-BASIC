@@ -78,7 +78,7 @@ class Home extends React.Component {
             <div className="movies">
               {movies.map((movie) => (
                 <Movie
-                  id={movie.sizeheight}
+                  id="1"
                   title={movie.title}
                   thumbnail={movie.thumbnail}
                 />
